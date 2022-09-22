@@ -2,13 +2,30 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as codepipeline from 'aws-cdk-lib/aws-codepipeline';
 import * as CodePipelineActions from 'aws-cdk-lib/aws-codepipeline-actions';
-import * as codebuild from 'aws-cdk-lib/aws-codebuild'
+import * as codebuild from 'aws-cdk-lib/aws-codebuild';
+import * as dynamo from 'aws-cdk-lib/aws-dynamodb';
 
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export class BackenedPipelineStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
+
+    const table = new dynamo.Table(this,'newTable',{
+      tableName: 'CI-CD_FirstTable',
+      partitionKey:{
+        name: 'id',
+        type: dynamo.AttributeType.STRING,
+      }
+    });
+
+    const table2 = new dynamo.Table(this,'SecondTable',{
+      tableName: 'CI-CD_SecondTable',
+      partitionKey:{
+        name: 'id',
+        type: dynamo.AttributeType.STRING,
+      }
+    })
 
 
     // Using CodeBuild(aws_service) to build repo of this project
@@ -21,8 +38,7 @@ export class BackenedPipelineStack extends cdk.Stack {
               "nodejs": 16
             },
             commands:[
-              'cd Your-repo-name',
-              'cd Backened_CI-CD_Pipeline',
+              'cd backened_pipeline',
               'npm install'
             ]
           },
@@ -70,8 +86,9 @@ export class BackenedPipelineStack extends cdk.Stack {
         new CodePipelineActions.GitHubSourceAction({
           actionName: 'Github_source',
           owner: 'Code-With-TalhaBhai',
-          repo: 'my-repo',
-          oauthToken: cdk.SecretValue.secretsManager('Github_token'), // OAuth Secret store in AWS_Secret_Manager
+          repo: 'Seperate_Aws_CI-CD_Pipeline',
+          // oauthToken: cdk.SecretValue.secretsManager('github'), // OAuth Secret store in AWS_Secret_Manager
+          oauthToken: cdk.SecretValue.unsafePlainText('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'), 
           output: sourceOutput, // Fetches Repository from 'github' and stored in sourceOutput Artiface
           branch: 'Main'
         })
