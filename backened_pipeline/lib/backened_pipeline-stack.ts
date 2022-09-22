@@ -19,13 +19,13 @@ export class BackenedPipelineStack extends cdk.Stack {
       }
     });
 
-    const table2 = new dynamo.Table(this,'SecondTable',{
-      tableName: 'CI-CD_SecondTable',
-      partitionKey:{
-        name: 'id',
-        type: dynamo.AttributeType.STRING,
-      }
-    })
+    // const table2 = new dynamo.Table(this,'SecondTable',{
+    //   tableName: 'CI-CD_SecondTable',
+    //   partitionKey:{
+    //     name: 'id',
+    //     type: dynamo.AttributeType.STRING,
+    //   }
+    // })
 
 
     // Using CodeBuild(aws_service) to build repo of this project
@@ -38,6 +38,7 @@ export class BackenedPipelineStack extends cdk.Stack {
               "nodejs": 16
             },
             commands:[
+              // 'cd backened_pipeline',
               'cd backened_pipeline',
               'npm install'
             ]
@@ -49,7 +50,7 @@ export class BackenedPipelineStack extends cdk.Stack {
             ]
           },
           artifacts:{
-            'base-directory': 'mygithub_repo/dist',
+            'base-directory': './backened_pipeline/dist',
             files:[
               `${this.stackName}.template.json`
             ]
@@ -86,9 +87,11 @@ export class BackenedPipelineStack extends cdk.Stack {
         new CodePipelineActions.GitHubSourceAction({
           actionName: 'Github_source',
           owner: 'Code-With-TalhaBhai',
+          // repo: 'Seperate_Aws_CI-CD_Pipeline',
           repo: 'Seperate_Aws_CI-CD_Pipeline',
           // oauthToken: cdk.SecretValue.secretsManager('github'), // OAuth Secret store in AWS_Secret_Manager
-          oauthToken: cdk.SecretValue.unsafePlainText('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'), 
+          oauthToken: cdk.SecretValue.secretsManager('github_aws'), // OAuth Secret store in AWS_Secret_Manager
+          // oauthToken: cdk.SecretValue.unsafePlainText('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'), 
           output: sourceOutput, // Fetches Repository from 'github' and stored in sourceOutput Artiface
           branch: 'Main'
         })
