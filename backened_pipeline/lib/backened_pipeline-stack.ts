@@ -4,7 +4,8 @@ import * as codepipeline from 'aws-cdk-lib/aws-codepipeline';
 import * as CodePipelineActions from 'aws-cdk-lib/aws-codepipeline-actions';
 import * as codebuild from 'aws-cdk-lib/aws-codebuild';
 import * as dynamo from 'aws-cdk-lib/aws-dynamodb';
-
+import * as secretmanager from 'aws-cdk-lib/aws-secretsmanager';
+// import GITHUB_AWS_SECRET from '../.env'
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export class BackenedPipelineStack extends cdk.Stack {
@@ -70,6 +71,8 @@ export class BackenedPipelineStack extends cdk.Stack {
 
 
 
+    // const token = secretmanager.Secret.fromSecretNameV2(this,'mygithubsecret','github_aws').secretValue
+
     // Creating a new pipeline
     const pipeline = new codepipeline.Pipeline(this,'mycodepipeline',{
       pipelineName: 'First-Custom-Pipeline',
@@ -89,9 +92,9 @@ export class BackenedPipelineStack extends cdk.Stack {
           owner: 'Code-With-TalhaBhai',
           // repo: 'Seperate_Aws_CI-CD_Pipeline',
           repo: 'Seperate_Aws_CI-CD_Pipeline',
-          // oauthToken: cdk.SecretValue.secretsManager('github'), // OAuth Secret store in AWS_Secret_Manager
-          oauthToken: cdk.SecretValue.secretsManager('github_aws'), // OAuth Secret store in AWS_Secret_Manager
-          // oauthToken: cdk.SecretValue.unsafePlainText('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'), 
+          // oauthToken: cdk.SecretValue.secretsManager('arn:aws:secretsmanager:us-east-1:706908112492:secret:github_with_aws-fIyCTQ'), // OAuth Secret store in AWS_Secret_Manager
+          // oauthToken: cdk.SecretValue.secretsManager('github_with_aws'), // OAuth Secret store in AWS_Secret_Manager
+          oauthToken: cdk.SecretValue.unsafePlainText(process.env.GITHUB_AWS_SECRET || ''),
           output: sourceOutput, // Fetches Repository from 'github' and stored in sourceOutput Artiface
           branch: 'Main'
         })
