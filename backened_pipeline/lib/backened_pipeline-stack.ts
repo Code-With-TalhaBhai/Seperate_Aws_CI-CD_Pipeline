@@ -5,7 +5,6 @@ import * as codepipeline from 'aws-cdk-lib/aws-codepipeline';
 import * as CodePipelineActions from 'aws-cdk-lib/aws-codepipeline-actions';
 import * as codebuild from 'aws-cdk-lib/aws-codebuild';
 import * as dynamo from 'aws-cdk-lib/aws-dynamodb';
-import * as secretmanager from 'aws-cdk-lib/aws-secretsmanager';
 
 
 export class BackenedPipelineStack extends cdk.Stack {
@@ -113,6 +112,7 @@ export class BackenedPipelineStack extends cdk.Stack {
     });
 
 
+    // Add deploy stage
     pipeline.addStage({
       stageName: 'DeploymentStage',
       actions:[
