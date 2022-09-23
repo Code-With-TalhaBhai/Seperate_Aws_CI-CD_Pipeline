@@ -36,7 +36,7 @@ export class BackenedPipelineStack extends cdk.Stack {
         phases:{
           install:{
             "runtime-versions": {
-              "nodejs": 16
+              "nodejs": 12
             },
             commands:[
               // 'cd backened_pipeline',
