@@ -1,4 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
+import {SecretValue} from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as codepipeline from 'aws-cdk-lib/aws-codepipeline';
 import * as CodePipelineActions from 'aws-cdk-lib/aws-codepipeline-actions';
@@ -90,7 +91,7 @@ export class BackenedPipelineStack extends cdk.Stack {
           actionName: 'Github_source',
           owner: 'Code-With-TalhaBhai',
           repo: 'Seperate_Aws_CI-CD_Pipeline',
-          oauthToken: cdk.SecretValue.secretsManager('my-github-secret-token'), // OAuth Secret store in AWS_Secret_Manager
+          oauthToken: SecretValue.secretsManager('my-github-secret-token'), // OAuth Secret store in AWS_Secret_Manager
           output: sourceOutput, // Fetches Repository from 'github' and stored in sourceOutput Artiface
           branch: 'Main'
         })
