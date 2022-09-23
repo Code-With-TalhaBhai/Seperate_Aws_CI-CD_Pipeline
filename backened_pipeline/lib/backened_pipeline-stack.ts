@@ -5,8 +5,7 @@ import * as CodePipelineActions from 'aws-cdk-lib/aws-codepipeline-actions';
 import * as codebuild from 'aws-cdk-lib/aws-codebuild';
 import * as dynamo from 'aws-cdk-lib/aws-dynamodb';
 import * as secretmanager from 'aws-cdk-lib/aws-secretsmanager';
-// import GITHUB_AWS_SECRET from '../.env'
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
+
 
 export class BackenedPipelineStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -90,11 +89,8 @@ export class BackenedPipelineStack extends cdk.Stack {
         new CodePipelineActions.GitHubSourceAction({
           actionName: 'Github_source',
           owner: 'Code-With-TalhaBhai',
-          // repo: 'Seperate_Aws_CI-CD_Pipeline',
           repo: 'Seperate_Aws_CI-CD_Pipeline',
-          // oauthToken: cdk.SecretValue.secretsManager('arn:aws:secretsmanager:us-east-1:706908112492:secret:github_with_aws-fIyCTQ'), // OAuth Secret store in AWS_Secret_Manager
-          // oauthToken: cdk.SecretValue.secretsManager('github_with_aws'), // OAuth Secret store in AWS_Secret_Manager
-          oauthToken: cdk.SecretValue.unsafePlainText(process.env.GITHUB_AWS_SECRET || ''),
+          oauthToken: cdk.SecretValue.secretsManager('my-github-secret-token'), // OAuth Secret store in AWS_Secret_Manager
           output: sourceOutput, // Fetches Repository from 'github' and stored in sourceOutput Artiface
           branch: 'Main'
         })
