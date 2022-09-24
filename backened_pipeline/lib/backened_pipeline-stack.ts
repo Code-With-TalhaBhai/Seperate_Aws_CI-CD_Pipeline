@@ -47,6 +47,7 @@ export class BackenedPipelineStack extends cdk.Stack {
           build:{
             commands:[
               'npm run build',
+              'npm install -g aws-cdk',
               'npx cdk synth',
               // 'cp ./cdk.out/* ./dist/'
               // 'mkdir dist && cd dist',
