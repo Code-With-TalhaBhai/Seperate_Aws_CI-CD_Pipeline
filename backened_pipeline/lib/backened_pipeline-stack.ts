@@ -46,7 +46,7 @@ export class BackenedPipelineStack extends cdk.Stack {
           build:{
             commands:[
               'npm run build',
-              'mkdir dist',
+              // 'mkdir -p dist',
               'npm run cdk synth',
               'cp ./cdk.out/* ./dist/'
               // 'mkdir dist && cd dist',
