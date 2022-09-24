@@ -40,21 +40,21 @@ export class BackenedPipelineStack extends cdk.Stack {
             commands:[
               // 'cd backened_pipeline',
               'cd backened_pipeline',
-              'npm install'
+              'npm install',
+              'npm ci'
             ]
           },
           build:{
             commands:[
               'npm run build',
-              // 'mkdir -p dist',
-              'npm run cdk synth',
-              'cp ./cdk.out/* ./dist/'
+              'npx cdk synth',
+              // 'cp ./cdk.out/* ./dist/'
               // 'mkdir dist && cd dist',
             ]
           },
         },
           artifacts:{
-            'base-directory': './backened_pipeline/dist',
+            'base-directory': './backened_pipeline/cdk.out',
             files:[
               `${this.stackName}.template.json`
             ]
