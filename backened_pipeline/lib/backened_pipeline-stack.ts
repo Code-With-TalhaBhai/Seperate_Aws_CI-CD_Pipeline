@@ -35,20 +35,18 @@ export class BackenedPipelineStack extends cdk.Stack {
         phases:{
           install:{
             "runtime-versions": {
-              "nodejs": 14
+              "nodejs": 16
             },
             commands:[
               // 'cd backened_pipeline',
               'cd backened_pipeline',
-              'npm install',
               'npm ci',
-              'npm install -g aws-cdk',
             ]
           },
           build:{
             commands:[
               'npm run build',
-              'npx cdk synth',
+              'npm run cdk synth -- -o dist',
             ]
           },
         },
@@ -60,7 +58,7 @@ export class BackenedPipelineStack extends cdk.Stack {
           },
       }),
         environment:{
-          buildImage: codebuild.LinuxBuildImage.STANDARD_3_0
+          buildImage: codebuild.LinuxBuildImage.STANDARD_5_0
         }
       });
 
