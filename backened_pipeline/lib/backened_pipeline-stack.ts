@@ -51,7 +51,7 @@ export class BackenedPipelineStack extends cdk.Stack {
           },
         },
           artifacts:{
-            'base-directory': './backened_pipeline/cdk.out',
+            'base-directory': './backened_pipeline/dist',
             files:[
               `${this.stackName}.template.json`
             ]
