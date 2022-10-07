@@ -19,13 +19,13 @@ export class BackenedPipelineStack extends cdk.Stack {
       }
     });
 
-    // const table2 = new dynamo.Table(this,'SecondTable',{
-    //   tableName: 'CI-CD_SecondTable',
-    //   partitionKey:{
-    //     name: 'id',
-    //     type: dynamo.AttributeType.STRING,
-    //   }
-    // })
+    const table2 = new dynamo.Table(this,'SecondTable',{
+      tableName: 'CI-CD_SecondTable',
+      partitionKey:{
+        name: 'id',
+        type: dynamo.AttributeType.STRING,
+      }
+    })
 
 
     // Using CodeBuild(aws_service) to build repo of this project
